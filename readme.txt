@@ -1,5 +1,5 @@
    ----------------
-   | Tic Tac Toe: |
+   | Tic Tac Toe  |
    ----------------
    | Ramy ElGendi |
    |   900170269  |
