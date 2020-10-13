@@ -321,13 +321,12 @@ public class TicTacGame {
         Random rand = new Random();
         int count = 0;
 
-
         for(int i=0;i<m;i++){
             for(int j=0;j<n;j++) {
                 count++;
                 if (board.get(i).get(j).get(round-1) == cell.EMPTY) {
-                    board.get(i).get(j).set(round-1, cell.X);
-                    if (checkWinner(round-1, count, cell.X)) {
+                    board.get(i).get(j).set(round-1, cell.O);
+                    if (checkWinner(round-1, count, cell.O)) {
                         board.get(i).get(j).set(round-1, cell.EMPTY);
                         return count;
                     }else
@@ -335,14 +334,14 @@ public class TicTacGame {
                 }
             }
         }
-
         count =0;
+
         for(int i=0;i<m;i++){
             for(int j=0;j<n;j++) {
                 count++;
                 if (board.get(i).get(j).get(round-1) == cell.EMPTY) {
-                    board.get(i).get(j).set(round-1, cell.O);
-                    if (checkWinner(round-1, count, cell.O)) {
+                    board.get(i).get(j).set(round-1, cell.X);
+                    if (checkWinner(round-1, count, cell.X)) {
                         board.get(i).get(j).set(round-1, cell.EMPTY);
                         return count;
                     }else
