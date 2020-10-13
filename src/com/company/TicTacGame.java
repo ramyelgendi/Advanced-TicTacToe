@@ -13,7 +13,56 @@ public class TicTacGame {
     int totalRounds,roundsPlayed;
     static state boardState;
 
-    // Create a class constructor for the MyClass class
+    // Setters & Getters
+    public static int getM() {
+        return m;
+    }
+
+    public static void setM(int m) {
+        TicTacGame.m = m;
+    }
+
+    public static int getN() {
+        return n;
+    }
+
+    public static void setN(int n) {
+        TicTacGame.n = n;
+    }
+
+    public static int getK() {
+        return k;
+    }
+
+    public static void setK(int k) {
+        TicTacGame.k = k;
+    }
+
+    public int getTotalRounds() {
+        return totalRounds;
+    }
+
+    public void setTotalRounds(int totalRounds) {
+        this.totalRounds = totalRounds;
+    }
+
+    public int getRoundsPlayed() {
+        return roundsPlayed;
+    }
+
+    public void setRoundsPlayed(int roundsPlayed) {
+        this.roundsPlayed = roundsPlayed;
+    }
+
+    public static state getBoardState() {
+        return boardState;
+    }
+
+    public static void setBoardState(state boardState) {
+        TicTacGame.boardState = boardState;
+    }
+
+    // Constructors
     public TicTacGame(int n,int m, int k) {
         TicTacGame.n = n;
         TicTacGame.m = m;
@@ -62,6 +111,8 @@ public class TicTacGame {
         }
         initializeBoard();
     }
+
+    // Printing the board without indices
     void printBoard(int round){
         for(int t=0;t<m;t++)
             System.out.print("------");
@@ -80,33 +131,23 @@ public class TicTacGame {
 
         }
     }
-    void playRounds(int roundFrom,int roundTo){
-        System.out.println("\nPlaying Rounds....");
-        for(int t=roundFrom;t<roundTo+1;t++) {
-            System.out.println("Round "+t);
-            printBoard(t);
-        }
-    }
+
+    // A method to get which player is next to make a turn
     cell nextPlayer(cell Player){
         if(Player==cell.X)
             return (cell.O);
         else return(cell.X);
     }
 
-    void setBoardState(state State){
-        boardState = State;
-
-    }
-    int getRoundsPlayed(){
-        return roundsPlayed;
-    }
-
+    // A method to initialize the board with empty cells
     void initializeBoard(){
         for (int i = 0; i < m; i++)
             for (int j = 0; j < n; j++) {
                 board.get(i).get(j).add(0, cell.EMPTY);
             }
     }
+
+    // Printing the board without indices
     void printBoardIndices(){
         int count = 1;
         for (int i = 0; i < m; i++) {
@@ -125,21 +166,19 @@ public class TicTacGame {
         int[] location = FindIndices(index);
         if(location[0] == -1 && location[1] == -1) {
             System.out.println("Cell does not exist!");
-            return false;
+            return true;
         } else if(board.get(location[0]).get(location[1]).get(round - 1) == cell.X || board.get(location[0]).get(location[1]).get(round - 1) == cell.O){
             System.out.println("Cell is already used!");
-            return false;
+            return true;
         } else {
             board.get(location[0]).get(location[1]).add(round, Player);
             for (int i = 0; i < m; i++)
                 for (int j = 0; j < n; j++)
-                    try{
-                        board.get(i).get(j).get(round);
-                    }catch (Exception IndexOutOfBoundsException) {
+                    if(!(i == location[0] && j==location[1])){
                         board.get(i).get(j).add(round, board.get(i).get(j).get(round - 1));
                     }
 
-            return true;
+            return false;
         }
     }
     int[] FindIndices(int index){
@@ -158,8 +197,9 @@ public class TicTacGame {
         return new int[] {-1,-1};
     }
 
-    int ValidateIndex(int index){
+    int ValidateIndex(){
         Scanner sc = new Scanner(System.in);
+        int index;
         do {
             System.out.print("Enter Valid Cell Number (1-"+n*m+"): ");
             while (!sc.hasNextInt()) {
@@ -179,9 +219,7 @@ public class TicTacGame {
             return true;
         if(checkDiagNegative(round,Player))
             return true;
-        if(checkDiagPositive(round,Player))
-            return true;
-    return false;
+        return checkDiagPositive(round, Player);
     }
     boolean checkVertically(int index,int round, cell Player){
         int[] location = FindIndices(index);
@@ -258,7 +296,6 @@ public class TicTacGame {
 
 
                 if (counter == k) {
-                    System.out.println(Player + " wins diagonally (\\)!");
                     return true;
                 }
             } counter=0;
@@ -288,13 +325,12 @@ public class TicTacGame {
             roundsPlayed = round;
             Player = nextPlayer(Player);
 
-            index = 0;
             System.out.println("==================================");
             System.out.println("Round "+round+", Player "+Player+"'s turn");
-            index = ValidateIndex(index);
+            index = ValidateIndex();
 
-            while (!play(index,round,Player))
-                index = ValidateIndex(index);
+            while (play(index, round, Player))
+                index = ValidateIndex();
 
 
             printBoard(round);
@@ -366,13 +402,13 @@ public class TicTacGame {
             System.out.println("==================================");
             System.out.println("Round "+round+", Player "+Player+"'s turn");
             if(Player==cell.X) {
-                index = ValidateIndex(index);
-                while (!play(index,round,Player))
-                    index = ValidateIndex(index);
+                index = ValidateIndex();
+                while (play(index, round, Player))
+                    index = ValidateIndex();
             }
             else {
                 index = getComputerIndex(round);
-                while (!play(index, round, Player))
+                while (play(index, round, Player))
                     index = getComputerIndex(round);
             }
 
@@ -395,6 +431,13 @@ public class TicTacGame {
             case WIN_X -> System.out.println("\n** Player X has won! **");
             default -> System.out.println("\n** Game failed. **");
 
+        }
+    }
+    void playRounds(int roundFrom,int roundTo){
+        System.out.println("\nPlaying Rounds....");
+        for(int t=roundFrom;t<roundTo+1;t++) {
+            System.out.println("Round "+t);
+            printBoard(t);
         }
     }
 }
