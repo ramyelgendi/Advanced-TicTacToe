@@ -317,10 +317,41 @@ public class TicTacGame {
 
         }
     }
-    int getComputerIndex(){
+    int getComputerIndex(int round){
         Random rand = new Random();
-        return rand.nextInt(totalRounds);
+        int count = 0;
 
+
+        for(int i=0;i<m;i++){
+            for(int j=0;j<n;j++) {
+                count++;
+                if (board.get(i).get(j).get(round-1) == cell.EMPTY) {
+                    board.get(i).get(j).set(round-1, cell.X);
+                    if (checkWinner(round-1, count, cell.X)) {
+                        board.get(i).get(j).set(round-1, cell.EMPTY);
+                        return count;
+                    }else
+                        board.get(i).get(j).set(round-1, cell.EMPTY);
+                }
+            }
+        }
+
+        count =0;
+        for(int i=0;i<m;i++){
+            for(int j=0;j<n;j++) {
+                count++;
+                if (board.get(i).get(j).get(round-1) == cell.EMPTY) {
+                    board.get(i).get(j).set(round-1, cell.O);
+                    if (checkWinner(round-1, count, cell.O)) {
+                        board.get(i).get(j).set(round-1, cell.EMPTY);
+                        return count;
+                    }else
+                        board.get(i).get(j).set(round-1, cell.EMPTY);
+                }
+            }
+        }
+
+        return rand.nextInt(totalRounds);
     }
     void autoMode(){
         cell Player = cell.O; // Initial O, which means X will begin
@@ -335,13 +366,16 @@ public class TicTacGame {
             index = 0;
             System.out.println("==================================");
             System.out.println("Round "+round+", Player "+Player+"'s turn");
-            if(Player==cell.X)
+            if(Player==cell.X) {
                 index = ValidateIndex(index);
-            else
-                index = getComputerIndex();
-
-            while (!play(index,round,Player))
-                index = getComputerIndex();
+                while (!play(index,round,Player))
+                    index = ValidateIndex(index);
+            }
+            else {
+                index = getComputerIndex(round);
+                while (!play(index, round, Player))
+                    index = getComputerIndex(round);
+            }
 
 
             printBoard(round);

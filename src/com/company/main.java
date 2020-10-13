@@ -79,11 +79,11 @@ public class main {
 
         int roundsPlayed = Game.getRoundsPlayed();
 
-        System.out.println("Select round you want to replay from (0 to "+roundsPlayed+"): ");
+        System.out.println("Select round you want to replay from (1 to "+roundsPlayed+"): ");
         input= new Scanner(System.in); //System.in is a standard input stream.
         int roundFrom = input.nextInt();
-        while (!(roundFrom>=0 && roundFrom <= roundsPlayed) ) {
-            System.out.println("Wrong round value! From (0 to "+roundsPlayed+"): ");
+        while (!(roundFrom>=1 && roundFrom <= roundsPlayed) ) {
+            System.out.println("Wrong round value! From (1 to "+roundsPlayed+"): ");
             input= new Scanner(System.in); //System.in is a standard input stream.
             roundFrom = input.nextInt();
         }
