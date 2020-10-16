@@ -39,7 +39,7 @@ public class main {
             input = new Scanner(System.in); //System.in is a standard input stream.
             n = input.nextInt();
             while (!(n >= 3 && n <= 10)) {
-                System.out.println("Wrong value for y-axis! (Between 3 and 10, 0 for default");
+                System.out.println("Wrong value for y-axis! (Between 3 and 10");
                 input = new Scanner(System.in); //System.in is a standard input stream.
                 n = input.nextInt();
             }

@@ -162,7 +162,8 @@ public class TicTacGame {
 
         }
     }
-    boolean play(int index,int round,cell Player){ // Plays X or O, and copies the indices to next round in arraylist
+    // Plays X or O, and copies the indices to next round in arraylist
+    boolean play(int index,int round,cell Player){
         int[] location = FindIndices(index);
         if(location[0] == -1 && location[1] == -1) {
             System.out.println("Cell does not exist!");
@@ -181,6 +182,7 @@ public class TicTacGame {
             return false;
         }
     }
+    // Returns the m and n coordinates of a given index
     int[] FindIndices(int index){
         int count = 1;
         for (int i = 0; i < m; i++) {
@@ -197,6 +199,8 @@ public class TicTacGame {
         return new int[] {-1,-1};
     }
 
+
+    // Checks if an index is within the range of the board.
     int ValidateIndex(){
         Scanner sc = new Scanner(System.in);
         int index;
@@ -212,6 +216,7 @@ public class TicTacGame {
         return index;
     }
 
+    // Checks if there is a winner
     boolean checkWinner(int round,int index,cell Player){
         if(checkVertically(index,round,Player))
             return true;
@@ -353,6 +358,7 @@ public class TicTacGame {
 
         }
     }
+    // Method used for computer to calculate its next cell
     int getComputerIndex(int round){
         Random rand = new Random();
         int count = 0;
@@ -433,6 +439,7 @@ public class TicTacGame {
 
         }
     }
+    // Method used to display round from given ranges
     void playRounds(int roundFrom,int roundTo){
         System.out.println("\nPlaying Rounds....");
         for(int t=roundFrom;t<roundTo+1;t++) {
